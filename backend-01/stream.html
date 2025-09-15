@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streaming</title>
+</head>
+<body>
+    <h1>Live number counting</h1>
+    <div id="container"></div>
+    <script>
+        const container = document.getElementById('container');
+        const eventSource = new EventSource('http://localhost:3000/stream');
+        eventSource.onopen =()=>{
+            console.log('connected');
+
+        }
+        eventSource.onerror=()=>{
+            console.log("err",err);
+        }
+        eventSource.onmessage=(event)=>{
+            console.log('Message received',event.data);
+            const div = document.createElement('div');
+            div.textContent = event.data;
+            div.className.add('event');
+            container.appendChild(div);
+        }
+    </script>
+</body>
+</html>
